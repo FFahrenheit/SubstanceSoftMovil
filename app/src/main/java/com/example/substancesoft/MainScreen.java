@@ -49,7 +49,7 @@ public class MainScreen extends AppCompatActivity
     {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new Tab1Fragment(), "Notificaciones");
-        adapter.addFragment(new Tab2Fragment(), "Estadísticas");
+        adapter.addFragment(new Tab2Fragment(), "Estadisticas");
         adapter.addFragment(new Tab3Fragment(), "Inventario");
         viewPager.setAdapter(adapter);
     }

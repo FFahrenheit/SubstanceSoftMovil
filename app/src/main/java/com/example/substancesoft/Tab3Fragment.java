@@ -22,12 +22,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Tab3Fragment extends Fragment {
     private static final String TAG = "Tab3Fragment";
-    private ListView invetoryList;
+    private ListView inventoryList;
     private ArrayList<QueryInventory> data;
     private QueryInventoryAdapter adapter;
     SharedPreferences vars;
@@ -37,12 +36,16 @@ public class Tab3Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab3_fragment,container,false);
 
+
         vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         data = new ArrayList<QueryInventory>();
+        adapter = new QueryInventoryAdapter();
 
         String IP = vars.getString("address","http://0.0.0.0");
 
-        String url = IP + "/substancesoft/getInventory.php";
+        String url = IP + "/substancesoft/mobile/get-inventory.php";
+        Toast.makeText(getActivity(),url, Toast.LENGTH_LONG).show();
+
 
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
@@ -74,12 +77,12 @@ public class Tab3Fragment extends Fragment {
                                 data.add(qry);
                             }
 
-                            invetoryList = (ListView) getActivity().findViewById(R.id.inventoryList);
+                            inventoryList = (ListView) getActivity().findViewById(R.id.inventoryList);
 
                             adapter.context = getActivity();
                             adapter.data = data;
 
-                            invetoryList.setAdapter(adapter);
+                            inventoryList.setAdapter(adapter);
                         }
                         catch(JSONException e)
                         {
@@ -95,8 +98,8 @@ public class Tab3Fragment extends Fragment {
                     }
                 }
         );
-        RequestQueue x = Volley.newRequestQueue(getActivity());
 
+        RequestQueue x = Volley.newRequestQueue(getActivity());
         x.add(request);
         return view;
     }

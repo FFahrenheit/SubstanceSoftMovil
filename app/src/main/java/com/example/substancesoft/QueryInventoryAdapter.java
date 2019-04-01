@@ -42,10 +42,10 @@ public class QueryInventoryAdapter extends BaseAdapter
         tvn.setText("Nombre:  "+ data.get(i).getNombre());
 
         tvn = (TextView) v.findViewById(R.id.ingredientExistence);
-        tvn.setText("Existencia: "+data.get(i).getExistencia().toString());
+        tvn.setText("Existencia: "+data.get(i).getExistencia());
 
         tvn = (TextView) v.findViewById(R.id.ingredientCritical);
-        tvn.setText("Existencia crítica : "+data.get(i).getCritica().toString());
+        tvn.setText("Existencia crítica : "+data.get(i).getCritica());
 
         tvn = (TextView) v.findViewById(R.id.ingredientEspecification);
         tvn.setText("Especificación: "+data.get(i).getEspecificacion());
