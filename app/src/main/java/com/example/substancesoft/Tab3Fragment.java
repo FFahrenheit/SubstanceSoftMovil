@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,11 +31,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Tab3Fragment extends Fragment {
+public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
     private static final String TAG = "Tab3Fragment";
     private ListView inventoryList;
     private ArrayList<QueryInventory> data;
     private QueryInventoryAdapter adapter;
+    private TextView logout;
     SharedPreferences vars;
 
     @Nullable
@@ -46,6 +48,13 @@ public class Tab3Fragment extends Fragment {
         vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         data = new ArrayList<QueryInventory>();
         adapter = new QueryInventoryAdapter();
+
+        //View myView = inflater.inflate(R.layout.tab3_fragment, container, false);
+
+        //myView.setOnClickListener(this);
+
+        //logout = (TextView)  myView.findViewById(R.id.titleInventory);
+        //logout.setOnClickListener(this);
 
         String IP = vars.getString("address","http://0.0.0.0");
 
@@ -188,6 +197,40 @@ public class Tab3Fragment extends Fragment {
 
         RequestQueue x = Volley.newRequestQueue(getActivity());
         x.add(request);
+
         return view;
     }
+
+    /*@Override
+    public void onClick(View v)
+    {
+        Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
+            /*
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(true);
+            builder.setTitle("Cerrar sesion");
+            builder.setMessage("¿Esta seguro que quiere cerrar su sesion?");
+            builder.setPositiveButton("Aceptar",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences check = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = check.edit();
+                            editor.putBoolean("logged",false);
+                            editor.commit();
+                            Intent logout = new  Intent(getActivity(), MainActivity.class);
+                            Toast.makeText(getActivity(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
+                            startActivity(logout);
+                        }
+                    });
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getActivity(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+    }*/
 }

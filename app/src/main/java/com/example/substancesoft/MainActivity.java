@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         password = (EditText) findViewById(R.id.loginPassword);
         login = (Button) findViewById(R.id.connect);
 
-        Picasso.with(this).load("https://i.ibb.co/DtbqVyT/logo.png").into(image);
+        Picasso.with(this).load("https://i.ibb.co/9sNSc37/logo.png").into(image);
 
         login.setOnClickListener(
                 new View.OnClickListener()
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
                                                     editor.putBoolean("logged",true);
                                                     editor.putString("user",username.getText().toString());
                                                     editor.putString("name",sName);
-                                                    editor.putString("address",ip.getAddress() );
+                                                    editor.putString("address",ip.getAddress());
                                                     editor.commit();
                                                     Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
                                                     startActivity(changeWindow);
@@ -99,5 +99,14 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
         );
+        checkLogged();
+    }
+    public void checkLogged()
+    {
+        if(vars.getBoolean("logged",false))
+        {
+                Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
+                startActivity(changeWindow);
+        }
     }
 }

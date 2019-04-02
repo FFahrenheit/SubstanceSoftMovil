@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textSize="25sp"
-        android:text="Tab1"
+        android:text="Cerrar sesión"
+        android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:id="@+id/textTab1"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btnTEST"
-        android:text="TESTBTN 1"/>
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:text="Salir"
+        android:layout_gravity="center"
+        android:id="@+id/logoutButton"
+        android:textAlignment="center"
+        android:textColor="#5b5a5a"/>
+    />
 
-</RelativeLayout>
+</LinearLayout>
