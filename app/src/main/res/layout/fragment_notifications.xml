@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:context=".Fragment.Notifications">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,15 +17,14 @@
         android:id="@+id/textTab1"/>
 
     <Button
+        android:id="@+id/logoutButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:text="Salir"
         android:layout_gravity="center"
-        android:id="@+id/logoutButton"
+        android:layout_marginTop="10dp"
+        android:text="Salir"
         android:textAlignment="center"
-        android:textColor="#5b5a5a"/>
-    />
+        android:textColor="#5b5a5a"
+        android:textSize="20dp" />
 
-</LinearLayout>
+</FrameLayout>

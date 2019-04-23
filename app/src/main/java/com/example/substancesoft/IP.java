@@ -7,11 +7,12 @@ public class IP
     {
         this.address = address;
     }
-    public String getAddress() {
+    public String getAddress()
+    {
         return address;
     }
-
-    public void setAddress(String address) {
+    public void setAddress(String address)
+    {
         this.address = address;
     }
 }
