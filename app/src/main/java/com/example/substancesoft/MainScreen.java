@@ -7,6 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.substancesoft.Fragment.Inventory;
+import com.example.substancesoft.Fragment.Notifications;
+import com.example.substancesoft.Fragment.Statistics.Statistics;
+import com.example.substancesoft.Fragment.Statistics.Statistics_Demanda;
+import com.example.substancesoft.Fragment.Statistics.Statistics_Root;
+
 public class MainScreen extends AppCompatActivity
 {
 
@@ -17,7 +23,8 @@ public class MainScreen extends AppCompatActivity
     private ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         Log.d(TAG, "onCreate: Starting.");
@@ -35,9 +42,9 @@ public class MainScreen extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager)
     {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Tab1Fragment(), "Notificaciones");
-        adapter.addFragment(new Tab2Fragment(), "Estadisticas");
-        adapter.addFragment(new Tab3Fragment(), "Inventario");
+        adapter.addFragment(new Notifications(), "Notificaciones");
+        adapter.addFragment(new Statistics_Root(), "Estadisticas");
+        adapter.addFragment(new Inventory(), "Inventario");
         viewPager.setAdapter(adapter);
     }
 

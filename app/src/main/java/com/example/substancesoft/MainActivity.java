@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity
 
         Picasso.with(this).load("https://i.ibb.co/9sNSc37/logo.png").into(image);
 
-        login.setOnClickListener(
+        login.setOnClickListener
+                (
                 new View.OnClickListener()
                 {
                     @Override
@@ -79,17 +80,21 @@ public class MainActivity extends AppCompatActivity
                                                     startActivity(changeWindow);
                                             }
                                             else
-                                                {
+                                            {
                                                 Toast.makeText(getApplicationContext(), "Error: "+error.toString() , Toast.LENGTH_SHORT).show();
                                             }
-                                        } catch (JSONException e) {
+                                        }
+                                        catch (JSONException e)
+                                        {
                                             e.printStackTrace();
                                         }
                                     }
                                 },
-                                new Response.ErrorListener() {
+                                new Response.ErrorListener()
+                                {
                                     @Override
-                                    public void onErrorResponse(VolleyError error) {
+                                    public void onErrorResponse(VolleyError error)
+                                    {
                                         Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }

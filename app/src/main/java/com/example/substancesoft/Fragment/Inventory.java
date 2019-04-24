@@ -1,8 +1,7 @@
-package com.example.substancesoft;
+package com.example.substancesoft.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +23,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.substancesoft.IP;
+import com.example.substancesoft.QueryInventory;
+import com.example.substancesoft.QueryInventoryAdapter;
+import com.example.substancesoft.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,18 +34,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
-    private static final String TAG = "Tab3Fragment";
+public class Inventory extends Fragment /*implements View.OnClickListener*/
+{
+    private static final String TAG = "Inventory";
     private ListView inventoryList;
     private ArrayList<QueryInventory> data;
     private QueryInventoryAdapter adapter;
-    private TextView logout;
     SharedPreferences vars;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab3_fragment,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View view = inflater.inflate(R.layout.fragment_inventory, container, false);
 
 
         vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
@@ -56,10 +60,8 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
         //logout = (TextView)  myView.findViewById(R.id.titleInventory);
         //logout.setOnClickListener(this);
 
-        String IP = vars.getString("address","http://0.0.0.0");
-
-        String url = IP + "/substancesoft/mobile/get-inventory.php";
-        Toast.makeText(getActivity(),url, Toast.LENGTH_LONG).show();
+        String url = "http://"+getResources().getString(R.string.address)+ "/substancesoft/mobile/get-inventory.php";
+        Toast.makeText(getActivity(), url, Toast.LENGTH_LONG).show();
 
 
         final JsonArrayRequest request = new JsonArrayRequest(
@@ -72,9 +74,8 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                     public void onResponse(JSONArray response)
                     {
 
-                        try
-                        {
-                            for(int i=0; i<response.length(); i++)
+                        try {
+                            for (int i = 0; i < response.length(); i++)
                             {
                                 JSONObject query = response.getJSONObject(i);
 
@@ -102,7 +103,8 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                             inventoryList.setAdapter(adapter);
 
                             inventoryList.setOnItemClickListener(
-                                    new AdapterView.OnItemClickListener() {
+                                    new AdapterView.OnItemClickListener()
+                                    {
                                         @Override
                                         public void onItemClick(AdapterView<?> parent, View view, final int position, long id)
                                         {
@@ -114,7 +116,7 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
 
                                             final EditText edittext = new EditText(getActivity());
                                             String ingredient = data.get(position).getNombre();
-                                            alert.setMessage("Ingrese la cantidad de "+ingredient+" a ingresar al inventario");
+                                            alert.setMessage("Ingrese la cantidad de " + ingredient + " a ingresar al inventario");
                                             alert.setTitle("Agregar a inventario");
 
                                             alert.setView(edittext);
@@ -127,7 +129,7 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                                                     String IP = vars.getString("address", "http://0.0.0.0");
 
                                                     String url = IP + "/substancesoft/mobile/add-inventory.php?pk=" + key + "&qty=" + qty;
-                                                    Toast.makeText(getActivity(),url,Toast.LENGTH_SHORT);
+                                                    Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT);
 
 
                                                     JsonObjectRequest peticion = new JsonObjectRequest
@@ -135,9 +137,11 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                                                                     Request.Method.GET,
                                                                     url,
                                                                     null,
-                                                                    new Response.Listener<JSONObject>() {
+                                                                    new Response.Listener<JSONObject>()
+                                                                    {
                                                                         @Override
-                                                                        public void onResponse(JSONObject response) {
+                                                                        public void onResponse(JSONObject response)
+                                                                        {
                                                                             try {
                                                                                 Integer error = response.getInt("error");
                                                                                 switch (error)
@@ -149,17 +153,21 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                                                                                         adapter.notifyDataSetChanged();
                                                                                         break;
                                                                                     default:
-                                                                                        Toast.makeText(getActivity(), "Error al agregar: Código: "+error.toString(), Toast.LENGTH_LONG).show();
+                                                                                        Toast.makeText(getActivity(), "Error al agregar: Código: " + error.toString(), Toast.LENGTH_LONG).show();
                                                                                         break;
                                                                                 }
-                                                                            } catch (JSONException e) {
+                                                                            }
+                                                                            catch (JSONException e)
+                                                                            {
                                                                                 e.printStackTrace();
                                                                             }
                                                                         }
                                                                     },
-                                                                    new Response.ErrorListener() {
+                                                                    new Response.ErrorListener()
+                                                                    {
                                                                         @Override
-                                                                        public void onErrorResponse(VolleyError error) {
+                                                                        public void onErrorResponse(VolleyError error)
+                                                                        {
                                                                             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                                                                         }
                                                                     }
@@ -169,8 +177,10 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                                                 }
                                             });
 
-                                            alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                            alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+                                            {
+                                                public void onClick(DialogInterface dialog, int whichButton)
+                                                {
                                                     Toast.makeText(getActivity(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
@@ -180,17 +190,18 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
                                     }
                             );
                         }
-                        catch(JSONException e)
+                        catch (JSONException e)
                         {
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new Response.ErrorListener()
+                {
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Toast.makeText(getActivity(),error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
         );
@@ -200,37 +211,4 @@ public class Tab3Fragment extends Fragment /*implements View.OnClickListener*/{
 
         return view;
     }
-
-    /*@Override
-    public void onClick(View v)
-    {
-        Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
-            /*
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setCancelable(true);
-            builder.setTitle("Cerrar sesion");
-            builder.setMessage("¿Esta seguro que quiere cerrar su sesion?");
-            builder.setPositiveButton("Aceptar",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences check = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = check.edit();
-                            editor.putBoolean("logged",false);
-                            editor.commit();
-                            Intent logout = new  Intent(getActivity(), MainActivity.class);
-                            Toast.makeText(getActivity(), "Sesion cerrada", Toast.LENGTH_SHORT).show();
-                            startActivity(logout);
-                        }
-                    });
-            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-    }*/
 }
