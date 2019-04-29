@@ -1,6 +1,7 @@
 package com.example.substancesoft.Fragment.Statistics;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,15 +29,19 @@ public class Statistics_Ingredientes extends Fragment {
 
     private WebView webView;
 
+    SharedPreferences vars;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_statistics__ingredientes,container,false);
 
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
         webView = (WebView) view.findViewById(R.id.WebView);
         webView.getSettings().setJavaScriptEnabled(true);
-        String url = "http://www.hentaila.com";
+        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/ingredientes.php";
         WebSettings settings = webView.getSettings();
         settings.setDefaultTextEncodingName("utf-8");
         webView.getSettings().setJavaScriptEnabled(true);

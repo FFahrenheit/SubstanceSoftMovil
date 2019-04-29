@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v)
                     {
+
                         final IP ip = new IP("http://" + address.getText().toString());
                         String url = ip.getAddress()+"/substancesoft/mobile/get-login.php?user="+username.getText().toString()+"&pass="+password.getText().toString();
                         Toast.makeText(getApplicationContext(), ""+url, Toast.LENGTH_SHORT).show();

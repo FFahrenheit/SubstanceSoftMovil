@@ -1,5 +1,7 @@
 package com.example.substancesoft.Fragment.Statistics;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.example.substancesoft.R;
@@ -23,6 +26,7 @@ public class Statistics_Demanda extends Fragment
     private static final String TAG = "Statistics_Demanda";
 
     private WebView webView;
+    SharedPreferences vars;
 
     @Nullable
     @Override
@@ -30,18 +34,24 @@ public class Statistics_Demanda extends Fragment
     {
         View view = inflater.inflate(R.layout.statistics_demanda_fragment,container,false);
 
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
         webView = (WebView) view.findViewById(R.id.WebView);
         webView.getSettings().setJavaScriptEnabled(true);
-        String url = "http://"+getResources().getString(R.string.address)+"/substancesoft/mobile/demanda.php";
+        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/demanda.php";
         webView.loadUrl(url);
         WebSettings settings = webView.getSettings();
         settings.setDefaultTextEncodingName("utf-8");
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setSaveFormData(false);
-        settings.setSupportZoom(true);
-        settings.setUseWideViewPort(true);
-        webView.setVerticalScrollBarEnabled(true);
-        webView.setHorizontalScrollBarEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        webView.loadUrl(url);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setUseWideViewPort(true);
         return view;
     }
 

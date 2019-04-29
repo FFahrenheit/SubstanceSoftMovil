@@ -60,7 +60,7 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
         //logout = (TextView)  myView.findViewById(R.id.titleInventory);
         //logout.setOnClickListener(this);
 
-        String url = "http://"+getResources().getString(R.string.address)+ "/substancesoft/mobile/get-inventory.php";
+        String url = vars.getString("address", "http://0.0.0.0")+ "/substancesoft/mobile/get-inventory.php";
         Toast.makeText(getActivity(), url, Toast.LENGTH_LONG).show();
 
 

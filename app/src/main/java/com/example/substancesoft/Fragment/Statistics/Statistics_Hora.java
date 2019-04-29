@@ -1,5 +1,7 @@
 package com.example.substancesoft.Fragment.Statistics;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 import com.example.substancesoft.R;
@@ -17,9 +20,6 @@ import com.example.substancesoft.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Statistics_Hora.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Statistics_Hora#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class Statistics_Hora extends Fragment
@@ -28,24 +28,32 @@ public class Statistics_Hora extends Fragment
     private WebView webView;
 
 
+    SharedPreferences vars;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_statistics__hora,container,false);
 
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+
         webView = (WebView) view.findViewById(R.id.WebView);
         webView.getSettings().setJavaScriptEnabled(true);
-        String url = "http://"+getResources().getString(R.string.address)+"/substancesoft/mobile/horarios.php";
+        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/horarios.php";
         webView.loadUrl(url);
         WebSettings settings = webView.getSettings();
         settings.setDefaultTextEncodingName("utf-8");
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setSaveFormData(false);
-        settings.setSupportZoom(true);
-        settings.setUseWideViewPort(true);
-        webView.setVerticalScrollBarEnabled(true);
-        webView.setHorizontalScrollBarEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        webView.loadUrl(url);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setUseWideViewPort(true);
         return view;
     }
 
