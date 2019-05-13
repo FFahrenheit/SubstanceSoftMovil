@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.substancesoft.Fragment.Pruebas;
 import com.example.substancesoft.R;
 
 public class Statistics extends Fragment

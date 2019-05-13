@@ -15,61 +15,94 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.anychart.anychart.AnyChart;
+import com.anychart.anychart.AnyChartView;
+import com.anychart.anychart.Bar3d;
+import com.anychart.anychart.Cartesian3d;
+import com.anychart.anychart.DataEntry;
+import com.anychart.anychart.ValueDataEntry;
 import com.example.substancesoft.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class Statistics_Ingredientes extends Fragment {
+public class Statistics_Ingredientes extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private WebView webView;
-
+    public RequestQueue request;
+    JsonObjectRequest jsonObjectRequest;
     SharedPreferences vars;
+    View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_statistics__ingredientes,container,false);
-
+        view = inflater.inflate(R.layout.fragment_statistics__ingredientes,container,false);
         vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-
-        webView = (WebView) view.findViewById(R.id.WebView);
-        webView.getSettings().setJavaScriptEnabled(true);
-        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/ingredientes.php";
-        WebSettings settings = webView.getSettings();
-        settings.setDefaultTextEncodingName("utf-8");
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false;
-            }
-        });
-        webView.loadUrl(url);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setUseWideViewPort(true);
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
-    {
-        final Button ret = getView().findViewById(R.id.ret);
-        ret.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.rootSt, new Statistics());
-                fragmentTransaction.commit();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        request = Volley.newRequestQueue(getContext());
+        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/ingredientes.php";
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
+        request.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json = response.optJSONArray("ingredientes");
+        List<DataEntry> data = new ArrayList<>();
+        List<DataEntry> data2 = new ArrayList<>();
+        Cartesian3d bar3d = AnyChart.bar3d();
+        try {
+            JSONObject jsonObject = null;
+            for(int i = 0; i<json.length();i++){
+                jsonObject = json.getJSONObject(i);
+                data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_surtido")));
             }
-        });
+            Bar3d bar = bar3d.bar(data);
+            bar.setName("Surtido");
+            for(int i = 0; i<json.length();i++){
+                jsonObject = json.getJSONObject(i);
+                data2.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_uso")));
+            }
+            Bar3d bar2 = bar3d.bar(data2);
+            bar2.setColor("#FF0000");
+            bar2.setName("Uso");
+            Toast.makeText(getContext(),bar3d.getLabels().toString(),Toast.LENGTH_SHORT);
+            bar3d.setTitle("Movimiento de ingredientes");
+            AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
+            anyChartView.setChart(bar3d);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
     }
 }
