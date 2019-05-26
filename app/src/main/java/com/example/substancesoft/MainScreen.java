@@ -62,7 +62,5 @@ public class MainScreen extends AppCompatActivity
     {
         if(getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
-        else
-            super.onBackPressed();
     }
 }
