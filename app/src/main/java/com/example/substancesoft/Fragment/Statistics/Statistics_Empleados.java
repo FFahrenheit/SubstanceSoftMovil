@@ -47,7 +47,6 @@ public class Statistics_Empleados extends Fragment implements Response.ErrorList
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    SharedPreferences vars;
     View view;
 
     @Nullable
@@ -55,16 +54,14 @@ public class Statistics_Empleados extends Fragment implements Response.ErrorList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__empleados,container,false);
-        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         request = Volley.newRequestQueue(getContext());
-        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/participacion.php";
+        String url = getString(R.string.address)+"/substancesoft/mobile/participacion.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
     }

@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity
         vars = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
 
         image = (ImageView) findViewById(R.id.appLogo);
-        address = (EditText) findViewById(R.id.loginIP);
         username = (EditText) findViewById(R.id.loginUser);
         password = (EditText) findViewById(R.id.loginPassword);
         login = (Button) findViewById(R.id.connect);
@@ -55,8 +54,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(View v)
                     {
 
-                        final IP ip = new IP("http://" + address.getText().toString());
-                        String url = ip.getAddress()+"/substancesoft/mobile/get-login.php?user="+username.getText().toString()+"&pass="+password.getText().toString();
+                        String url = getString(R.string.address)+"/substancesoft/mobile/get-login.php?user="+username.getText().toString()+"&pass="+password.getText().toString();
                         Toast.makeText(getApplicationContext(), ""+url, Toast.LENGTH_SHORT).show();
                         JsonObjectRequest request = new JsonObjectRequest(
                                 Request.Method.GET,
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity
                                                     editor.putBoolean("logged",true);
                                                     editor.putString("user",username.getText().toString());
                                                     editor.putString("name",sName);
-                                                    editor.putString("address",ip.getAddress());
                                                     editor.commit();
                                                     Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
                                                     startActivity(changeWindow);
