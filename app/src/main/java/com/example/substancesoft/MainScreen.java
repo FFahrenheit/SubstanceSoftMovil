@@ -1,7 +1,6 @@
 package com.example.substancesoft;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.view.ViewPager;
@@ -14,8 +13,6 @@ import com.example.substancesoft.Fragment.Notifications;
 import com.example.substancesoft.Fragment.Statistics.Statistics;
 import com.example.substancesoft.Fragment.Statistics.Statistics_Demanda;
 import com.example.substancesoft.Fragment.Statistics.Statistics_Root;
-
-import java.util.Objects;
 
 public class MainScreen extends AppCompatActivity
 {
@@ -60,7 +57,12 @@ public class MainScreen extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+<<<<<<< HEAD
         if(getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
+=======
+        finish();
+        System.exit(0);
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
     }
 }
