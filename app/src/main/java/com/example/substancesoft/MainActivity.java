@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity
                                             if (error == 0)
                                             {
                                                 String sName = response.getString("nombre");
-                                                Toast.makeText(getApplicationContext(), "Inicio correcto", Toast.LENGTH_SHORT).show();
+                                                String permission = response.getString("valor");
+                                                Toast.makeText(getApplicationContext(), "Inicio correcto"+permission, Toast.LENGTH_SHORT).show();
                                                 SharedPreferences.Editor editor = vars.edit();
                                                     editor.putBoolean("logged",true);
                                                     editor.putString("user",username.getText().toString());
