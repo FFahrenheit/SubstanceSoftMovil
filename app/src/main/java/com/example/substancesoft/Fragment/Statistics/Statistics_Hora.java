@@ -62,11 +62,12 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
         url = getString(R.string.address)+"/substancesoft/mobile/horarios.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
-        try {
-            //set time in mili
+        try
+        {
             Thread.sleep(1000);
-
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return view;
@@ -81,13 +82,12 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
     public void onResponse(JSONObject response) {
             JSONArray json = response.optJSONArray("horarios");
             try {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 for (int i = 0; i < json.length(); i++) {
                     jsonObject = json.getJSONObject(i);
                     data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("venta")));
                 }
-                Bar3d bar = bar3d.bar(data);
-                bar.setName("Ventas");
+                bar3d.bar(data).setName("Ventas");
                 bar3d.setTitle("Ventas por hora");
                 AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
                 anyChartView.setChart(bar3d);

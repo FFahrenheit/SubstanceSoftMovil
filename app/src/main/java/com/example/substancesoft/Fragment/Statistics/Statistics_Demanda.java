@@ -49,6 +49,10 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    List<DataEntry> data = new ArrayList<>();
+    Cartesian3d bar3d = AnyChart.bar3d();
+    AnyChartView anyChartView;
+    String url;
     View view;
 
     @Nullable
@@ -56,22 +60,18 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.statistics_demanda_fragment,container,false);
+        anyChartView = view.findViewById(R.id.any_chart_view);
         request = Volley.newRequestQueue(getContext());
-        String url = getString(R.string.address)+"/substancesoft/mobile/demanda.php";
-        Cartesian3d bar3d = AnyChart.bar3d();
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("vacio", 0));
-        bar3d.setData(data);
-        AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
-        anyChartView.setChart(bar3d);
+        url = getString(R.string.address)+"/substancesoft/mobile/demanda.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.add(jsonObjectRequest);
-        try {
-            //set time in mili
+        try
+        {
             Thread.sleep(1000);
-
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return view;
@@ -85,19 +85,14 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
     @Override
     public void onResponse(JSONObject response) {
         JSONArray json = response.optJSONArray("demanda");
-        List<DataEntry> data = new ArrayList<>();
-        Cartesian3d bar3d = AnyChart.bar3d();
         try {
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
                 jsonObject = json.getJSONObject(i);
                 data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma")));
             }
-            Bar3d bar = bar3d.bar(data);
-            bar.setName("Ventas");
-            Toast.makeText(getContext(),bar3d.getLabels().toString(),Toast.LENGTH_SHORT);
+            bar3d.bar(data).setName("Ventas");
             bar3d.setTitle("Demanda de platillos");
-            AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();

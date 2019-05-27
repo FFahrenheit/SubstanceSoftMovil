@@ -49,6 +49,9 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    List<DataEntry> data = new ArrayList<>();
+    Cartesian3d bar3d = AnyChart.bar3d();
+    String url;
     View view;
 
     @Nullable
@@ -57,20 +60,15 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
     {
         view = inflater.inflate(R.layout.fragment_statistics__montos,container,false);
         request = Volley.newRequestQueue(getContext());
-        String url = getString(R.string.address)+"/substancesoft/mobile/cortes.php";
-        Cartesian3d bar3d = AnyChart.bar3d();
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("vacio", 0));
-        bar3d.setData(data);
-        AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
-        anyChartView.setChart(bar3d);
+        url = getString(R.string.address)+"/substancesoft/mobile/cortes.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
-        try {
-            //set time in mili
+        try
+        {
             Thread.sleep(1000);
-
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return view;
@@ -84,17 +82,13 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
     @Override
     public void onResponse(JSONObject response) {
         JSONArray json = response.optJSONArray("cortes");
-        List<DataEntry> data = new ArrayList<>();
-        Cartesian3d bar3d = AnyChart.bar3d();
         try {
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
                 jsonObject = json.getJSONObject(i);
                 data.add(new ValueDataEntry(jsonObject.optString("dia"), jsonObject.optInt("suma")));
             }
-            Bar3d bar = bar3d.bar(data);
-            bar.setName("Ventas");
-            Toast.makeText(getContext(),bar3d.getLabels().toString(),Toast.LENGTH_SHORT);
+            bar3d.bar(data).setName("Ventas");
             bar3d.setTitle("Cortes de la semana");
             AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
             anyChartView.setChart(bar3d);

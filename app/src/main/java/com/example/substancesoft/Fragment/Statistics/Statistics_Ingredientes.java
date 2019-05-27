@@ -51,6 +51,11 @@ public class Statistics_Ingredientes extends Fragment implements Response.ErrorL
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    AnyChartView anyChartView;
+    List<DataEntry> data = new ArrayList<>();
+    List<DataEntry> data2 = new ArrayList<>();
+    Cartesian3d bar3d = AnyChart.bar3d();
+    String url;
     View view;
 
     @Nullable
@@ -58,15 +63,17 @@ public class Statistics_Ingredientes extends Fragment implements Response.ErrorL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__ingredientes,container,false);
+        anyChartView = view.findViewById(R.id.any_chart_view);
         request = Volley.newRequestQueue(getContext());
-        String url = getString(R.string.address)+"/substancesoft/mobile/ingredientes.php";
+        url = getString(R.string.address)+"/substancesoft/mobile/ingredientes.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
-        try {
-            //set time in mili
+        try
+        {
             Thread.sleep(1000);
-
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return view;
@@ -80,27 +87,19 @@ public class Statistics_Ingredientes extends Fragment implements Response.ErrorL
     @Override
     public void onResponse(JSONObject response) {
         JSONArray json = response.optJSONArray("ingredientes");
-        List<DataEntry> data = new ArrayList<>();
-        List<DataEntry> data2 = new ArrayList<>();
-        Cartesian3d bar3d = AnyChart.bar3d();
         try {
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
                 jsonObject = json.getJSONObject(i);
                 data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_surtido")));
             }
-            Bar3d bar = bar3d.bar(data);
-            bar.setName("Surtido");
+            bar3d.bar(data).setName("Surtido");
             for(int i = 0; i<json.length();i++){
                 jsonObject = json.getJSONObject(i);
                 data2.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_uso")));
             }
-            Bar3d bar2 = bar3d.bar(data2);
-            bar2.setColor("#FF0000");
-            bar2.setName("Uso");
-            Toast.makeText(getContext(),bar3d.getLabels().toString(),Toast.LENGTH_SHORT);
+            bar3d.bar(data2).setColor("#FF0000").setName("Uso");
             bar3d.setTitle("Movimiento de ingredientes");
-            AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();
