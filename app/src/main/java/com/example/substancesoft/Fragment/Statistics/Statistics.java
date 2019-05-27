@@ -40,7 +40,11 @@ public class Statistics extends Fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Demanda());
 <<<<<<< HEAD
+<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
+=======
+                fragmentTransaction.commit();
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
 =======
                 fragmentTransaction.commit();
 >>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
@@ -55,7 +59,11 @@ public class Statistics extends Fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Empleados());
 <<<<<<< HEAD
+<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
+=======
+                fragmentTransaction.commit();
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
 =======
                 fragmentTransaction.commit();
 >>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
@@ -68,7 +76,11 @@ public class Statistics extends Fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Hora());
 <<<<<<< HEAD
+<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
+=======
+                fragmentTransaction.commit();
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
 =======
                 fragmentTransaction.commit();
 >>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
@@ -81,7 +93,11 @@ public class Statistics extends Fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Ingredientes());
 <<<<<<< HEAD
+<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
+=======
+                fragmentTransaction.commit();
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
 =======
                 fragmentTransaction.commit();
 >>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
@@ -94,7 +110,11 @@ public class Statistics extends Fragment
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Montos());
 <<<<<<< HEAD
+<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
+=======
+                fragmentTransaction.commit();
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
 =======
                 fragmentTransaction.commit();
 >>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
