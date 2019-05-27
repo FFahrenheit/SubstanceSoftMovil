@@ -62,6 +62,13 @@ public class Statistics_Ingredientes extends Fragment implements Response.ErrorL
         String url = getString(R.string.address)+"/substancesoft/mobile/ingredientes.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
+        try {
+            //set time in mili
+            Thread.sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return view;
     }
 

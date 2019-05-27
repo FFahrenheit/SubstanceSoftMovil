@@ -58,8 +58,21 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
         view = inflater.inflate(R.layout.fragment_statistics__montos,container,false);
         request = Volley.newRequestQueue(getContext());
         String url = getString(R.string.address)+"/substancesoft/mobile/cortes.php";
+        Cartesian3d bar3d = AnyChart.bar3d();
+        List<DataEntry> data = new ArrayList<>();
+        data.add(new ValueDataEntry("vacio", 0));
+        bar3d.setData(data);
+        AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
+        anyChartView.setChart(bar3d);
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
+        try {
+            //set time in mili
+            Thread.sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return view;
     }
 

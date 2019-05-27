@@ -60,6 +60,13 @@ public class Statistics_Empleados extends Fragment implements Response.ErrorList
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.add(jsonObjectRequest);
+        try {
+            //set time in mili
+            Thread.sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return view;
     }
 

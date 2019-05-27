@@ -58,9 +58,22 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
         view = inflater.inflate(R.layout.statistics_demanda_fragment,container,false);
         request = Volley.newRequestQueue(getContext());
         String url = getString(R.string.address)+"/substancesoft/mobile/demanda.php";
+        Cartesian3d bar3d = AnyChart.bar3d();
+        List<DataEntry> data = new ArrayList<>();
+        data.add(new ValueDataEntry("vacio", 0));
+        bar3d.setData(data);
+        AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
+        anyChartView.setChart(bar3d);
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.add(jsonObjectRequest);
+        try {
+            //set time in mili
+            Thread.sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return view;
     }
 

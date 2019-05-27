@@ -48,6 +48,9 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    List<DataEntry> data = new ArrayList<>();
+    Cartesian3d bar3d = AnyChart.bar3d();
+    String url;
     View view;
 
     @Nullable
@@ -56,10 +59,16 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
     {
         view = inflater.inflate(R.layout.fragment_statistics__hora,container,false);
         request = Volley.newRequestQueue(getContext());
-        String url = getString(R.string.address)+"/substancesoft/mobile/horarios.php";
+        url = getString(R.string.address)+"/substancesoft/mobile/horarios.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.add(jsonObjectRequest);
+        try {
+            //set time in mili
+            Thread.sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -70,24 +79,21 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
 
     @Override
     public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("horarios");
-        List<DataEntry> data = new ArrayList<>();
-        Cartesian3d bar3d = AnyChart.bar3d();
-        try {
-            JSONObject jsonObject = null;
-            for(int i = 0; i<json.length();i++){
-                jsonObject = json.getJSONObject(i);
-                data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("venta")));
+            JSONArray json = response.optJSONArray("horarios");
+            try {
+                JSONObject jsonObject = null;
+                for (int i = 0; i < json.length(); i++) {
+                    jsonObject = json.getJSONObject(i);
+                    data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("venta")));
+                }
+                Bar3d bar = bar3d.bar(data);
+                bar.setName("Ventas");
+                bar3d.setTitle("Ventas por hora");
+                AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
+                anyChartView.setChart(bar3d);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            Bar3d bar = bar3d.bar(data);
-            bar.setName("Ventas");
-            Toast.makeText(getContext(),bar3d.getLabels().toString(),Toast.LENGTH_SHORT);
-            bar3d.setTitle("Ventas por hora");
-            AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
-            anyChartView.setChart(bar3d);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
