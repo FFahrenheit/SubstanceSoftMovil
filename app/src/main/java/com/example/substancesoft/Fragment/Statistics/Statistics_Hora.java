@@ -47,6 +47,7 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
+    SharedPreferences vars;
     View view;
 
     @Nullable
@@ -54,14 +55,16 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__hora,container,false);
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         request = Volley.newRequestQueue(getContext());
-        String url = getString(R.string.address)+"/substancesoft/mobile/horarios.php";
+        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/horarios.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
     }
