@@ -100,6 +100,6 @@ public class Statistics_Ingredientes extends Fragment implements Response.ErrorL
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "No se pue wachar mijo", Toast.LENGTH_SHORT);
+        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
     }
 }
