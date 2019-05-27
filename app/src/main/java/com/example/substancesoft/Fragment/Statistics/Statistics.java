@@ -39,11 +39,7 @@ public class Statistics extends Fragment
             {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Demanda());
-<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
-=======
-                fragmentTransaction.commit();
->>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
             }
         });
         final Button empleados = getView().findViewById(R.id.empleados);
@@ -54,11 +50,7 @@ public class Statistics extends Fragment
             {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Empleados());
-<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
-=======
-                fragmentTransaction.commit();
->>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
             }
         });
         final Button hora = getView().findViewById(R.id.horas);
@@ -67,11 +59,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Hora());
-<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
-=======
-                fragmentTransaction.commit();
->>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
             }
         });
         final Button ingredientes = getView().findViewById(R.id.ingredientes);
@@ -80,11 +68,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Ingredientes());
-<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
-=======
-                fragmentTransaction.commit();
->>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
             }
         });
         final Button monto = getView().findViewById(R.id.montos);
@@ -93,11 +77,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Montos());
-<<<<<<< HEAD
                 fragmentTransaction.addToBackStack(null).commit();
-=======
-                fragmentTransaction.commit();
->>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
             }
         });
     }
