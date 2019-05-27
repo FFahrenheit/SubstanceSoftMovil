@@ -48,7 +48,6 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
 
     public RequestQueue request;
     JsonObjectRequest jsonObjectRequest;
-    SharedPreferences vars;
     View view;
 
     @Nullable
@@ -62,9 +61,8 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         request = Volley.newRequestQueue(getContext());
-        String url = vars.getString("address", "http://0.0.0.0")+"/substancesoft/mobile/demanda.php";
+        String url = getString(R.string.address)+"/substancesoft/mobile/demanda.php";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
     }
