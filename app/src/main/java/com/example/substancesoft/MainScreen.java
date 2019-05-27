@@ -57,7 +57,17 @@ public class MainScreen extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if(getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStack();
+=======
+        finish();
+        System.exit(0);
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
+=======
+        finish();
+        System.exit(0);
+>>>>>>> parent of e4581b9... Presionar atrás y que te saque (En las estadísticas) es para mensos
     }
 }
