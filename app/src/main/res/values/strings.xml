@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SubstanceSoft</string>
     <string name="title_activity_main_screen">MainScreen</string>
-    <string name="address">http://192.168.43.27</string>
+    <string name="address">http://192.168.43.27<!--http://23.99.135.168--></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -67,15 +67,23 @@ public class MainActivity extends AppCompatActivity
                                             Integer error = response.getInt("error");
                                             if (error == 0)
                                             {
-                                                String sName = response.getString("nombre");
-                                                Toast.makeText(getApplicationContext(), "Inicio correcto", Toast.LENGTH_SHORT).show();
-                                                SharedPreferences.Editor editor = vars.edit();
-                                                    editor.putBoolean("logged",true);
-                                                    editor.putString("user",username.getText().toString());
-                                                    editor.putString("name",sName);
+                                                String permission = response.getString("valor");
+                                                if(permission.equals("0"))
+                                                {
+                                                    Intent changeWindow = new Intent(MainActivity.this, NoPermited.class);
+                                                    startActivity(changeWindow);
+                                                }
+                                                else {
+                                                    String sName = response.getString("nombre");
+                                                    Toast.makeText(getApplicationContext(), "Inicio correcto", Toast.LENGTH_SHORT).show();
+                                                    SharedPreferences.Editor editor = vars.edit();
+                                                    editor.putBoolean("logged", true);
+                                                    editor.putString("user", username.getText().toString());
+                                                    editor.putString("name", sName);
                                                     editor.commit();
                                                     Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
                                                     startActivity(changeWindow);
+                                                }
                                             }
                                             else
                                             {
