@@ -126,9 +126,8 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
                                                 public void onClick(DialogInterface dialog, int whichButton)
                                                 {
                                                     final String qty = edittext.getText().toString();
-                                                    String IP = vars.getString("address", "http://0.0.0.0");
 
-                                                    String url = IP + "/substancesoft/mobile/add-inventory.php?pk=" + key + "&qty=" + qty;
+                                                    String url = getString(R.string.address) + "/substancesoft/mobile/add-inventory.php?pk=" + key + "&qty=" + qty;
                                                     Toast.makeText(getActivity(), url, Toast.LENGTH_SHORT);
 
 

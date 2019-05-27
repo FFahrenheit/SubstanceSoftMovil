@@ -39,7 +39,7 @@ public class Statistics extends Fragment
             {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Demanda());
-                fragmentTransaction.commit();
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
         final Button empleados = getView().findViewById(R.id.empleados);
@@ -50,7 +50,7 @@ public class Statistics extends Fragment
             {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Empleados());
-                fragmentTransaction.commit();
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
         final Button hora = getView().findViewById(R.id.horas);
@@ -59,7 +59,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Hora());
-                fragmentTransaction.commit();
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
         final Button ingredientes = getView().findViewById(R.id.ingredientes);
@@ -68,7 +68,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Ingredientes());
-                fragmentTransaction.commit();
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
         final Button monto = getView().findViewById(R.id.montos);
@@ -77,7 +77,7 @@ public class Statistics extends Fragment
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.rootSt, new Statistics_Montos());
-                fragmentTransaction.commit();
+                fragmentTransaction.addToBackStack(null).commit();
             }
         });
     }

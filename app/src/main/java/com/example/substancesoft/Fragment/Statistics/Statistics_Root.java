@@ -47,7 +47,7 @@ public class Statistics_Root extends Fragment {
         super.onCreate(savedInstanceState);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.rootSt, new Statistics());
-        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
     @Override

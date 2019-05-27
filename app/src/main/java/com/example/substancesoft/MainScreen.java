@@ -57,7 +57,13 @@ public class MainScreen extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        finish();
-        System.exit(0);
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+        {
+            getFragmentManager().popBackStack();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 }
