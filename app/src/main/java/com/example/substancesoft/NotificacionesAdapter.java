@@ -42,7 +42,7 @@ public class NotificacionesAdapter extends BaseAdapter {
         tvn.setText("Notificación:  "+ data.get(i).getConcepto());
 
         tvn = (TextView) v.findViewById(R.id.fecha);
-        tvn.setText("Existencia: "+data.get(i).getFecha());
+        tvn.setText("Fecha: "+data.get(i).getFecha());
         return v;
     }
 }
