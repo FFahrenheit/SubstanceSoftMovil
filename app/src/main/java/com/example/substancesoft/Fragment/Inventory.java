@@ -48,8 +48,6 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
     {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
 
-
-        vars = getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         data = new ArrayList<QueryInventory>();
         adapter = new QueryInventoryAdapter();
 
@@ -61,8 +59,6 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
         //logout.setOnClickListener(this);
 
         String url = getString(R.string.address)+ "/substancesoft/mobile/get-inventory.php";
-        Toast.makeText(getActivity(), url, Toast.LENGTH_LONG).show();
-
 
         final JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
