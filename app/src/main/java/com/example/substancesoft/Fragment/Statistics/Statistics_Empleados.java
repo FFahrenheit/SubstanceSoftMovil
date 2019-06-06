@@ -42,49 +42,29 @@ import java.util.List;
  * Created by User on 2/28/2017.
  */
 
-public class Statistics_Empleados extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>
+public class Statistics_Empleados extends Fragment
 {
-    private static final String TAG = "Statistics_Demanda";
-
-    public RequestQueue request;
-    JsonObjectRequest jsonObjectRequest;
     AnyChartView anyChartView;
     List<DataEntry> data = new ArrayList<>();
     List<DataEntry> data2 = new ArrayList<>();
     Cartesian3d bar3d = AnyChart.bar3d();
-    String url;
     View view;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__empleados,container,false);
+        Bundle arguments = getArguments();
         anyChartView = view.findViewById(R.id.any_chart_view);
-        request = Volley.newRequestQueue(getContext());
-        url = getString(R.string.address)+"/substancesoft/mobile/participacion.php";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.add(jsonObjectRequest);
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (Exception e)
-        {
+        JSONObject obj= null;
+        try {
+            obj = new JSONObject(arguments.getString("data"));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("participacion");
+        JSONArray json = obj.optJSONArray("participacion");
         try {
             JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
@@ -98,14 +78,11 @@ public class Statistics_Empleados extends Fragment implements Response.ErrorList
             }
             bar3d.bar(data2).setColor("#FF0000").setName("Pedidos Realizados");
             bar3d.setTitle("Movimientos de empleados");
+            bar3d.setAnimation(true);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
+        return view;
     }
 }

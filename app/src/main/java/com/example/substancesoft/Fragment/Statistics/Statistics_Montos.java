@@ -43,15 +43,13 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class Statistics_Montos extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>{
+public class Statistics_Montos extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    public RequestQueue request;
-    JsonObjectRequest jsonObjectRequest;
+    AnyChartView anyChartView;
     List<DataEntry> data = new ArrayList<>();
     Cartesian3d bar3d = AnyChart.bar3d();
-    String url;
     View view;
 
     @Nullable
@@ -59,29 +57,15 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__montos,container,false);
-        request = Volley.newRequestQueue(getContext());
-        url = getString(R.string.address)+"/substancesoft/mobile/cortes.php";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        request.add(jsonObjectRequest);
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (Exception e)
-        {
+        Bundle arguments = getArguments();
+        anyChartView = view.findViewById(R.id.any_chart_view);
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(arguments.getString("data"));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("cortes");
+        JSONArray json = obj.optJSONArray("cortes");
         try {
             JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
@@ -90,15 +74,11 @@ public class Statistics_Montos extends Fragment implements Response.ErrorListene
             }
             bar3d.bar(data).setName("Ventas");
             bar3d.setTitle("Cortes de la semana");
-            AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
+            bar3d.setAnimation(true);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
+        return view;
     }
 }

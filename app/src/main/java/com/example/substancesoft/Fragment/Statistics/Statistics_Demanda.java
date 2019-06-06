@@ -43,7 +43,7 @@ import java.util.List;
  * Created by User on 2/28/2017.
  */
 
-public class Statistics_Demanda extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>
+public class Statistics_Demanda extends Fragment
 {
     private static final String TAG = "Statistics_Demanda";
 
@@ -55,36 +55,21 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
     String url;
     View view;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.statistics_demanda_fragment,container,false);
+        Bundle arguments = getArguments();
         anyChartView = view.findViewById(R.id.any_chart_view);
-        request = Volley.newRequestQueue(getContext());
-        url = getString(R.string.address)+"/substancesoft/mobile/demanda.php";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(4000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        request.add(jsonObjectRequest);
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (Exception e)
-        {
+        JSONObject obj= null;
+        try {
+            obj = new JSONObject(arguments.getString("data"));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("demanda");
+        JSONArray json = obj.optJSONArray("demanda");
         try {
             JSONObject jsonObject;
             for(int i = 0; i<json.length();i++){
@@ -93,14 +78,11 @@ public class Statistics_Demanda extends Fragment implements Response.ErrorListen
             }
             bar3d.bar(data).setName("Ventas");
             bar3d.setTitle("Demanda de platillos");
+            bar3d.setAnimation(true);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
+        return view;
     }
 }

@@ -11,12 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NoPermited"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".NoPermited" />
         <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_screen"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".FirstStep">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -43,14 +43,11 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class Statistics_Hora extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>
+public class Statistics_Hora extends Fragment
 {
-
-    public RequestQueue request;
-    JsonObjectRequest jsonObjectRequest;
+    AnyChartView anyChartView;
     List<DataEntry> data = new ArrayList<>();
     Cartesian3d bar3d = AnyChart.bar3d();
-    String url;
     View view;
 
     @Nullable
@@ -58,46 +55,28 @@ public class Statistics_Hora extends Fragment implements Response.ErrorListener,
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_statistics__hora,container,false);
-        request = Volley.newRequestQueue(getContext());
-        url = getString(R.string.address)+"/substancesoft/mobile/horarios.php";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        request.add(jsonObjectRequest);
-        try
-        {
-            Thread.sleep(1000);
+        Bundle arguments = getArguments();
+        anyChartView = view.findViewById(R.id.any_chart_view);
+        JSONObject obj= null;
+        try {
+            obj = new JSONObject(arguments.getString("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        catch (Exception e)
-        {
+        JSONArray json = obj.optJSONArray("horarios");
+        try {
+            JSONObject jsonObject;
+            for (int i = 0; i < json.length(); i++) {
+                jsonObject = json.getJSONObject(i);
+                data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("venta")));
+            }
+            bar3d.bar(data).setName("Ventas");
+            bar3d.setTitle("Ventas por hora");
+            bar3d.setAnimation(true);
+            anyChartView.setChart(bar3d);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-            JSONArray json = response.optJSONArray("horarios");
-            try {
-                JSONObject jsonObject;
-                for (int i = 0; i < json.length(); i++) {
-                    jsonObject = json.getJSONObject(i);
-                    data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("venta")));
-                }
-                bar3d.bar(data).setName("Ventas");
-                bar3d.setTitle("Ventas por hora");
-                AnyChartView anyChartView = view.findViewById(R.id.any_chart_view);
-                anyChartView.setChart(bar3d);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
     }
 }

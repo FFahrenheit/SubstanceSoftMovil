@@ -45,69 +45,44 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * create an instance of this fragment.
  */
-public class Statistics_Ingredientes extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject>{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-    public RequestQueue request;
-    JsonObjectRequest jsonObjectRequest;
+public class Statistics_Ingredientes extends Fragment{
     AnyChartView anyChartView;
     List<DataEntry> data = new ArrayList<>();
     List<DataEntry> data2 = new ArrayList<>();
     Cartesian3d bar3d = AnyChart.bar3d();
-    String url;
     View view;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        view = inflater.inflate(R.layout.fragment_statistics__ingredientes,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_statistics__ingredientes, container, false);
+        Bundle arguments = getArguments();
         anyChartView = view.findViewById(R.id.any_chart_view);
-        request = Volley.newRequestQueue(getContext());
-        url = getString(R.string.address)+"/substancesoft/mobile/ingredientes.php";
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
-        request.add(jsonObjectRequest);
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch (Exception e)
-        {
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(arguments.getString("data"));
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResponse(JSONObject response) {
-        JSONArray json = response.optJSONArray("ingredientes");
+        JSONArray json = obj.optJSONArray("ingredientes");
         try {
             JSONObject jsonObject;
-            for(int i = 0; i<json.length();i++){
+            for (int i = 0; i < json.length(); i++) {
                 jsonObject = json.getJSONObject(i);
                 data.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_surtido")));
             }
             bar3d.bar(data).setName("Surtido");
-            for(int i = 0; i<json.length();i++){
+            for (int i = 0; i < json.length(); i++) {
                 jsonObject = json.getJSONObject(i);
                 data2.add(new ValueDataEntry(jsonObject.optString("nombre"), jsonObject.optInt("suma_uso")));
             }
             bar3d.bar(data2).setColor("#FF0000").setName("Uso");
             bar3d.setTitle("Movimiento de ingredientes");
+            bar3d.setAnimation(true);
             anyChartView.setChart(bar3d);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT);
+        return view;
     }
 }

@@ -48,118 +48,67 @@ public class MainActivity extends AppCompatActivity
 
         login.setOnClickListener
                 (
-                new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
+                        new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View v)
+                            {
 
-                        String url = getString(R.string.address)+"/substancesoft/mobile/get-login.php?user="+username.getText().toString()+"&pass="+password.getText().toString();
-                        JsonObjectRequest request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                url,
-                                null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            Integer error = response.getInt("error");
-                                            if (error == 0)
-                                            {
-                                                String permission = response.getString("valor");
-                                                if(permission.equals("0"))
+                                String url = getString(R.string.address)+"/substancesoft/mobile/get-login.php?user="+username.getText().toString()+"&pass="+password.getText().toString();
+                                JsonObjectRequest request = new JsonObjectRequest(
+                                        Request.Method.GET,
+                                        url,
+                                        null,
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    Integer error = response.getInt("error");
+                                                    if (error == 0)
+                                                    {
+                                                        String sName = response.getString("nombre");
+                                                        Toast.makeText(getApplicationContext(), "Inicio correcto", Toast.LENGTH_SHORT).show();
+                                                        SharedPreferences.Editor editor = vars.edit();
+                                                        editor.putBoolean("logged", true);
+                                                        editor.putString("user", username.getText().toString());
+                                                        editor.putString("name", sName);
+                                                        editor.commit();
+                                                        Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
+                                                        startActivity(changeWindow);
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(getApplicationContext(), "No se puede iniciar sesión" , Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                                catch (JSONException e)
                                                 {
-                                                    Intent changeWindow = new Intent(MainActivity.this, NoPermited.class);
-                                                    startActivity(changeWindow);
-                                                }
-                                                else {
-                                                    String sName = response.getString("nombre");
-                                                    Toast.makeText(getApplicationContext(), "Inicio correcto", Toast.LENGTH_SHORT).show();
-                                                    SharedPreferences.Editor editor = vars.edit();
-                                                    editor.putBoolean("logged", true);
-                                                    editor.putString("user", username.getText().toString());
-                                                    editor.putString("name", sName);
-                                                    editor.commit();
-                                                    Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
-                                                    startActivity(changeWindow);
+                                                    e.printStackTrace();
                                                 }
                                             }
-                                            else
-                                            {
-                                                Toast.makeText(getApplicationContext(), "Error: "+error.toString() , Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                        catch (JSONException e)
+                                        },
+                                        new Response.ErrorListener()
                                         {
-                                            e.printStackTrace();
+                                            @Override
+                                            public void onErrorResponse(VolleyError error)
+                                            {
+                                                Toast.makeText(MainActivity.this, "No se puede iniciar sesión", Toast.LENGTH_LONG).show();
+                                            }
                                         }
-                                    }
-                                },
-                                new Response.ErrorListener()
-                                {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error)
-                                    {
-                                        Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                        );
-                        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-                        queue.add(request);
-                    }
-                }
-        );
+                                );
+                                RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+                                queue.add(request);
+                            }
+                        }
+                );
         checkLogged();
-        try
-        {
-            Thread.sleep(500);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
     public void checkLogged()
     {
         if(vars.getBoolean("logged",false))
         {
-            String url = getString(R.string.address)+"/substancesoft/mobile/check-logged.php";
-            JsonObjectRequest request = new JsonObjectRequest(
-                    Request.Method.GET,
-                    url,
-                    null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                    String permission = response.getString("valor");
-                                    if(permission.equals("0"))
-                                    {
-                                        Intent changeWindow = new Intent(MainActivity.this, NoPermited.class);
-                                        startActivity(changeWindow);
-                                    }
-                                    else {
-                                        Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
-                                        startActivity(changeWindow);
-                                    }
-                            }
-                            catch (JSONException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener()
-                    {
-                        @Override
-                        public void onErrorResponse(VolleyError error)
-                        {
-                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-            );
-            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-            queue.add(request);
+            Intent changeWindow = new Intent(MainActivity.this, MainScreen.class);
+            startActivity(changeWindow);
         }
     }
 }

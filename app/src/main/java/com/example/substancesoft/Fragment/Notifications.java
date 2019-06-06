@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +34,15 @@ import com.example.substancesoft.NotificacionesAdapter;
 import com.example.substancesoft.QueryInventory;
 import com.example.substancesoft.QueryInventoryAdapter;
 import com.example.substancesoft.R;
+import com.example.substancesoft.SwipeController;
+import com.example.substancesoft.SwipeControllerActions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.RecursiveAction;
 
 /**
  * Created by ivan_ on 2/28/2017.
@@ -46,7 +53,8 @@ public class Notifications extends Fragment{
 
     private Button logout;
     SharedPreferences vars;
-    private ListView notificationsList;
+    SwipeController swipeController = null;
+    private RecyclerView notificationsList;
     private ArrayList<Notificaciones> data;
     private NotificacionesAdapter adapter;
 
@@ -100,7 +108,6 @@ public class Notifications extends Fragment{
         });
 
         data = new ArrayList<Notificaciones>();
-        adapter = new NotificacionesAdapter();
 
         String url = getString(R.string.address)+ "/substancesoft/mobile/get-notifications.php";
 
@@ -128,13 +135,31 @@ public class Notifications extends Fragment{
 
                                 data.add(not);
                             }
+                            adapter = new NotificacionesAdapter(data);
 
-                            notificationsList = (ListView) getActivity().findViewById(R.id.notificationsList);
+                            notificationsList = (RecyclerView) getActivity().findViewById(R.id.notificationsRecyclerList);
 
-                            adapter.context = getActivity();
-                            adapter.data = data;
-
+                            notificationsList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                             notificationsList.setAdapter(adapter);
+
+                            swipeController = new SwipeController(new SwipeControllerActions() {
+                                @Override
+                                public void onRightClicked(int position) {
+                                    adapter.data.remove(position);
+                                    adapter.notifyItemRemoved(position);
+                                    adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+                                }
+                            });
+
+                            ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+                            itemTouchhelper.attachToRecyclerView(notificationsList);
+
+                            notificationsList.addItemDecoration(new RecyclerView.ItemDecoration() {
+                                @Override
+                                public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                                    swipeController.onDraw(c);
+                                }
+                            });
                         }
                         catch (JSONException e)
                         {

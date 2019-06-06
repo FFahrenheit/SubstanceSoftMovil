@@ -1,6 +1,7 @@
 package com.example.substancesoft;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,41 +9,42 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NotificacionesAdapter extends BaseAdapter {
+public class NotificacionesAdapter extends RecyclerView.Adapter<NotificacionesAdapter.NotificacionesViewHolder> {
+    public List<Notificaciones> data;
 
-    public ArrayList<Notificaciones> data;
-    public Context context;
+    public class NotificacionesViewHolder extends RecyclerView.ViewHolder {
+        private TextView notificacion, fecha;
+
+        public NotificacionesViewHolder(View view) {
+            super(view);
+            notificacion = (TextView) view.findViewById(R.id.notificacion);
+            fecha = (TextView) view.findViewById(R.id.fecha);
+        }
+    }
+
+    public NotificacionesAdapter(List<Notificaciones> data) {
+        this.data = data;
+    }
 
     @Override
-    public int getCount()
-    {
+    public NotificacionesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.notificaciones, parent, false);
+
+        return new NotificacionesViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(NotificacionesViewHolder holder, int position) {
+        Notificaciones not = data.get(position);
+        holder.notificacion.setText(not.getConcepto());
+        holder.fecha.setText(not.getFecha());
+    }
+
+    @Override
+    public int getItemCount() {
         return data.size();
-    }
-
-    @Override
-    public Object getItem(int i)
-    {
-        return data.get(i);
-    }
-
-    @Override
-    public long getItemId(int i)
-    {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup )
-    {
-        LayoutInflater link = LayoutInflater.from(context);
-        View v = link.inflate(R.layout.notificaciones, null);
-
-        TextView tvn = (TextView) v.findViewById(R.id.notificacion);
-        tvn.setText("Notificación:  "+ data.get(i).getConcepto());
-
-        tvn = (TextView) v.findViewById(R.id.fecha);
-        tvn.setText("Fecha: "+data.get(i).getFecha());
-        return v;
     }
 }
