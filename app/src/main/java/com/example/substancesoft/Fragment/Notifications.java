@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -126,12 +127,14 @@ public class Notifications extends Fragment{
                             {
                                 JSONObject query = response.getJSONObject(i);
 
+                                int id = query.getInt("clave");
                                 String concepto = query.getString("texto");
                                 String fecha = query.getString("fecha");
 
                                 Notificaciones not = new Notificaciones();
                                 not.setConcepto(concepto);
                                 not.setFecha(fecha);
+                                not.setId(id);
 
                                 data.add(not);
                             }
@@ -145,9 +148,24 @@ public class Notifications extends Fragment{
                             swipeController = new SwipeController(new SwipeControllerActions() {
                                 @Override
                                 public void onRightClicked(int position) {
-                                    adapter.data.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                    adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+                                    final int pos = position;
+                                    final String url = getString(R.string.address)+ "/substancesoft/mobile/delete-notification.php?id="+adapter.data.get(pos).getId();
+                                    RequestQueue request = Volley.newRequestQueue(getContext());
+                                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+                                                    adapter.data.remove(pos);
+                                                    adapter.notifyItemRemoved(pos);
+                                                    adapter.notifyItemRangeChanged(pos, adapter.getItemCount());
+                                                }
+                                            }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getActivity(), "No hay conexion", Toast.LENGTH_LONG).show();
+                                            }
+                                    });
+                                    request.add(jsonObjectRequest);
                                 }
                             });
 

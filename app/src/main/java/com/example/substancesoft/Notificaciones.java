@@ -3,6 +3,7 @@ package com.example.substancesoft;
 import java.util.Date;
 
 public class Notificaciones {
+    private int id;
     private String concepto;
     private String fecha;
 
@@ -20,5 +21,13 @@ public class Notificaciones {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
