@@ -2,15 +2,18 @@ package com.example.substancesoft.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.substancesoft.IP;
+import com.example.substancesoft.MainActivity;
 import com.example.substancesoft.QueryInventory;
 import com.example.substancesoft.QueryInventoryAdapter;
 import com.example.substancesoft.R;
@@ -40,6 +44,7 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
     private ListView inventoryList;
     private ArrayList<QueryInventory> data;
     private QueryInventoryAdapter adapter;
+    private Button ivan;
     SharedPreferences vars;
 
     @Nullable
@@ -47,16 +52,32 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
+        ivan = view.findViewById(R.id.ivanButton);
 
         data = new ArrayList<QueryInventory>();
         adapter = new QueryInventoryAdapter();
 
-        //View myView = inflater.inflate(R.layout.tab3_fragment, container, false);
-
-        //myView.setOnClickListener(this);
-
-        //logout = (TextView)  myView.findViewById(R.id.titleInventory);
-        //logout.setOnClickListener(this);
+        ivan.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = "Ponga aqui su string";
+                RequestQueue request = Volley.newRequestQueue(getContext());
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(),"No se puede imprimir",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                request.add(jsonObjectRequest);
+            }
+        });
 
         String url = getString(R.string.address)+ "/substancesoft/mobile/get-inventory.php";
 
