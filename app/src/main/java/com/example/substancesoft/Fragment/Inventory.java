@@ -62,7 +62,7 @@ public class Inventory extends Fragment /*implements View.OnClickListener*/
             @Override
             public void onClick(View view)
             {
-                String url = "Ponga aqui su string";
+                String url = getString(R.string.address)+ "/substancesoft/impresionTermica/feria.php";
                 RequestQueue request = Volley.newRequestQueue(getContext());
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONObject>() {
