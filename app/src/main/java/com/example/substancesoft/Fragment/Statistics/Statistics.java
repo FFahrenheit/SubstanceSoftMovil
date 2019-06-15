@@ -115,7 +115,7 @@ public class Statistics extends Fragment
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),"No se pue wachar mijo",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"No se puede observar en este momento",Toast.LENGTH_SHORT).show();
             }
         });
         request.add(jsonObjectRequest);
