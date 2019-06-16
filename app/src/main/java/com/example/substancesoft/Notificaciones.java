@@ -1,7 +1,5 @@
 package com.example.substancesoft;
 
-import java.util.Date;
-
 public class Notificaciones {
     private int id;
     private String concepto;

@@ -17,13 +17,4 @@
         android:layout_height="400dp"
         android:id="@+id/inventoryList">
     </ListView>
-    <Button
-        android:id="@+id/ivanButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Imprimir"
-        android:textAlignment="center"
-        android:textColor="#5b5a5a"
-        android:textSize="20dp"/>
 </LinearLayout>

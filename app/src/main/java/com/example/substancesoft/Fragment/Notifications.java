@@ -45,10 +45,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.RecursiveAction;
 
-/**
- * Created by ivan_ on 2/28/2017.
- */
-
 public class Notifications extends Fragment{
     private static final String TAG = "Notifications";
 

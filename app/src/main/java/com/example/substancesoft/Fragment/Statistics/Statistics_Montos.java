@@ -1,51 +1,25 @@
 package com.example.substancesoft.Fragment.Statistics;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.anychart.anychart.AnyChart;
 import com.anychart.anychart.AnyChartView;
-import com.anychart.anychart.Bar3d;
 import com.anychart.anychart.Cartesian3d;
 import com.anychart.anychart.DataEntry;
 import com.anychart.anychart.ValueDataEntry;
 import com.example.substancesoft.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * create an instance of this fragment.
- */
+
 public class Statistics_Montos extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     AnyChartView anyChartView;
     List<DataEntry> data = new ArrayList<>();
